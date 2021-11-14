@@ -7,7 +7,7 @@ let WATERDATAS =  [
     value: 3,
     date: (new Date(2019,2,3)).toISOString()
     // To input Data in Y.M.D,
-    // we need to new Date(Y,M+1,D)
+    // we need to new Date(Y,M+1,D) to enter
   },
   {
     value: 5,
