@@ -66,7 +66,17 @@ AppleHealthKit.initHealthKit(
   },
 )
 
-var Age,Val
+let WeightOption = {
+  unit: 'kilogram',
+}
+
+let HeightOption = {
+  unit: 'centimeter'
+}
+
+var Age,BirthDate
+var Weight,Height
+
 AppleHealthKit.getDateOfBirth(
   null,
   (err: Object, results: HealthDateOfBirth) => {
@@ -81,10 +91,27 @@ AppleHealthKit.getDateOfBirth(
     //console.log(typeof results.value)
 
     Age=results.age
-    Val=results.value
+    BirthDate=results.value
     //return results
   },
 )
+
+AppleHealthKit.getLatestHeight(HeightOption, (err: string, results: HealthValue) => {
+  if (err) {
+    console.log('error getting latest height: ', err)
+    return
+  }
+  console.log(results)
+  Height=results.value
+})
+
+AppleHealthKit.getLatestWeight(WeightOption, (err: string, results: HealthValue) => {
+  if (err) {
+    console.log('error getting latest weight: ', err)
+    return
+  }
+  Weight=results.value
+})
 
 for(let i=0; i<WATERDATAS.length;i++){
   AppleHealthKit.saveWater((WATERDATAS[i]: Object), (err: Object, results: boolean) => {
@@ -107,7 +134,9 @@ const App = () => {
     <View style={styles.container}>
       <Text style={styles.title}> My First React Native</Text>
       <Text style={styles.normalTexts}>Age: {Age}</Text>
-      <Text style={styles.normalTexts}>Val: {Val}</Text>
+      <Text style={styles.normalTexts}>BirthDate: {BirthDate}</Text>
+      <Text style={styles.normalTexts}>Height: {Height}</Text>
+      <Text style={styles.normalTexts}>Weight: {Weight}</Text> 
     </View>
   );
 
