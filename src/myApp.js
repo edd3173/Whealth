@@ -4,10 +4,12 @@ import AppleHealthKit, { HealthValue, HealthKitPermissions } from 'react-native-
 
 let WATERDATAS =  [
   {
+    // In Liters
     value: 3,
     date: (new Date(2019,2,3)).toISOString()
     // To input Data in Y.M.D,
-    // we need to new Date(Y,M+1,D) to enter
+    // we need to new Date(Y,M+1,D)
+    // EX. new Date(2019,2,3) -> Inputs Data in HK : (2019,1,3)
   },
   {
     value: 5,
@@ -53,6 +55,7 @@ let options ={
   },
 }
 
+// Initializing HealthKit
 AppleHealthKit.initHealthKit(
   (options: HealthInputOptions),
   (err: string, results: boolean) => {
@@ -66,17 +69,21 @@ AppleHealthKit.initHealthKit(
   },
 )
 
+//Setting Weight Option.
 let WeightOption = {
   unit: 'kilogram',
 }
 
+//Setting Height option, but seems not work. It works like Default(Inch)
 let HeightOption = {
   unit: 'centimeter'
 }
 
+// Variables for HK datas
 var Age,BirthDate
 var Weight,Height
 
+//Method to get DateOfBirth
 AppleHealthKit.getDateOfBirth(
   null,
   (err: Object, results: HealthDateOfBirth) => {
@@ -96,6 +103,7 @@ AppleHealthKit.getDateOfBirth(
   },
 )
 
+//Method to get  Height
 AppleHealthKit.getLatestHeight(HeightOption, (err: string, results: HealthValue) => {
   if (err) {
     console.log('error getting latest height: ', err)
@@ -105,6 +113,7 @@ AppleHealthKit.getLatestHeight(HeightOption, (err: string, results: HealthValue)
   Height=results.value
 })
 
+//Method to get Weight
 AppleHealthKit.getLatestWeight(WeightOption, (err: string, results: HealthValue) => {
   if (err) {
     console.log('error getting latest weight: ', err)
@@ -113,6 +122,10 @@ AppleHealthKit.getLatestWeight(WeightOption, (err: string, results: HealthValue)
   Weight=results.value
 })
 
+
+/*
+  Iterate WaterDatas array, and save them using method
+*/
 for(let i=0; i<WATERDATAS.length;i++){
   AppleHealthKit.saveWater((WATERDATAS[i]: Object), (err: Object, results: boolean) => {
     if (err) {
@@ -123,13 +136,19 @@ for(let i=0; i<WATERDATAS.length;i++){
   })
 }
 
+
+// Main App
 const App = () => {
 
-  // method call sequence
-  // data structure store and load
+  // NEED TO DEAL WITH : 
+  // method call sequence -> Later
+  // data structure store and load -> Works(on half)
   
   //console.log(Age)
   //console.log(Val)
+
+
+  // Show it in screen
   return (  
     <View style={styles.container}>
       <Text style={styles.title}> My First React Native</Text>
@@ -142,6 +161,7 @@ const App = () => {
 
 };
 
+//Some basic styles
 const styles = StyleSheet.create({
   container: {
     flex:1 ,

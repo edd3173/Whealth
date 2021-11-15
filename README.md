@@ -1,6 +1,6 @@
 # Whealth
 
-Access To Apple HealthKit Using ReacNative API.
+Access To Apple HealthKit Using ReactNative API.
 
 
 
